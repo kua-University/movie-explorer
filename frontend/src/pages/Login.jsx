@@ -6,19 +6,22 @@ export default function Login() {
     const [isLogin, setIsLogin] = useState(true);
     const [formData, setFormData] = useState({ email: "", password: "", username: "" });
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { login, register } = useAuth();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
-        const userData = {
-            email: formData.email,
-            username: isLogin ? formData.email.split('@')[0] : formData.username,
-            avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${formData.email}`
-        };
-
-        login(userData);
-        navigate("/");
+        try {
+            if (isLogin) {
+                await login(formData.email, formData.password);
+            } else {
+                await register(formData.username, formData.email, formData.password);
+            }
+            navigate("/");
+        } catch (err) {
+            console.error(err);
+            alert(err.response?.data?.message || "Authentication failed");
+        }
     };
 
     return (
