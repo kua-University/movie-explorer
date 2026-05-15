@@ -12,7 +12,7 @@ export function WatchlistProvider({ children }) {
     useEffect(() => {
         const fetchWatchlist = async () => {
             try {
-                const { data } = await axios.get('/api/watchlist');
+                const { data } = await axios.get('watchlist');
                 const mappedData = data.map(m => ({...m, id: m.movie_id, db_id: m.id}));
                 setWatchlist(mappedData);
             } catch (err) {
@@ -32,7 +32,7 @@ export function WatchlistProvider({ children }) {
         if (watchlist.some(m => m.id === movie.id)) return;
         
         try {
-            const { data } = await axios.post('/api/watchlist', {
+            const { data } = await axios.post('watchlist', {
                 id: movie.id,
                 title: movie.title || movie.name,
                 poster_path: movie.poster_path,
@@ -50,7 +50,7 @@ export function WatchlistProvider({ children }) {
 
     const removeFromWatchlist = async (movieId) => {
         try {
-            await axios.delete(`/api/watchlist/${movieId}`);
+            await axios.delete(`watchlist/${movieId}`);
             setWatchlist(prev => prev.filter((m) => m.id !== movieId));
             toast.success("Removed from watchlist");
         } catch (err) {

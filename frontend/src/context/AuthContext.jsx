@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
     }, []);
 
     const login = async (email, password) => {
-        const { data } = await axios.post('/api/auth/login', { email, password });
+        const { data } = await axios.post('auth/login', { email, password });
         const userWithAvatar = { ...data, avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${data.email}` };
         setUser(userWithAvatar);
         localStorage.setItem("axora_user", JSON.stringify(userWithAvatar));
@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
     };
 
     const register = async (name, email, password) => {
-        const { data } = await axios.post('/api/auth/register', { name, email, password });
+        const { data } = await axios.post('auth/register', { name, email, password });
         const userWithAvatar = { ...data, avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${data.email}` };
         setUser(userWithAvatar);
         localStorage.setItem("axora_user", JSON.stringify(userWithAvatar));
