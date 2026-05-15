@@ -23,6 +23,7 @@ export function WatchlistProvider({ children }) {
         if (user) {
             fetchWatchlist();
         } else {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setWatchlist([]);
         }
     }, [user]);
