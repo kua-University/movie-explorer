@@ -13,7 +13,7 @@ export default function MovieDetails() {
     const [trailer, setTrailer] = useState(null);
     const [isTrailerOpen, setIsTrailerOpen] = useState(false);
 
-    const { watchlist, addToWatchlist, removeFromWatchlist, isInWatchlist } = useWatchlist();
+    const { addToWatchlist, removeFromWatchlist, isInWatchlist } = useWatchlist();
     const saved = isInWatchlist(parseInt(id));
 
     useEffect(() => {

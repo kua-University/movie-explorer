@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 
 export default function Hero({ popularMovies = [] }) {
@@ -6,6 +6,22 @@ export default function Hero({ popularMovies = [] }) {
     const [fade, setFade] = useState(true);
 
     const heroMovies = popularMovies.slice(0, 8); 
+
+    const handleNext = useCallback(() => {
+        setFade(false);
+        setTimeout(() => {
+            setCurrentIndex((prev) => (prev + 1) % heroMovies.length);
+            setFade(true);
+        }, 400);
+    }, [heroMovies.length]);
+
+    const handlePrev = useCallback(() => {
+        setFade(false);
+        setTimeout(() => {
+            setCurrentIndex((prev) => (prev === 0 ? heroMovies.length - 1 : prev - 1));
+            setFade(true);
+        }, 400);
+    }, [heroMovies.length]);
 
     useEffect(() => {
         if (heroMovies.length === 0) return;
@@ -15,23 +31,7 @@ export default function Hero({ popularMovies = [] }) {
         }, 8000); 
 
         return () => clearInterval(interval);
-    }, [heroMovies.length, currentIndex]);
-
-    const handleNext = () => {
-        setFade(false);
-        setTimeout(() => {
-            setCurrentIndex((prev) => (prev + 1) % heroMovies.length);
-            setFade(true);
-        }, 400);
-    };
-
-    const handlePrev = () => {
-        setFade(false);
-        setTimeout(() => {
-            setCurrentIndex((prev) => (prev === 0 ? heroMovies.length - 1 : prev - 1));
-            setFade(true);
-        }, 400);
-    };
+    }, [heroMovies.length, currentIndex, handleNext]);
 
     if (heroMovies.length === 0) return <div className="h-[60vh] w-full bg-[#0b0d14]" />;
 
