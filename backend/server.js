@@ -27,6 +27,9 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+app.get('/', (req, res) => {
+    res.send('Welcome to the AXORA Movies API. All endpoints are under /api');
+});
 app.use('/api/auth', authRoutes);
 app.use('/api/watchlist', watchlistRoutes);
 
