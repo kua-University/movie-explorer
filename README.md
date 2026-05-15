@@ -112,27 +112,44 @@ This project implements modern CI/CD practices and utilizes cloud-native deploym
 
 ## 🚀 Rapid Setup
 
-### 1. Clone & Install
+### Option 1: Docker (Recommended)
+Run the entire stack with a single command! This handles the Node.js backend, React frontend, and a local PostgreSQL database automatically.
+
 ```bash
-git clone https://github.com/emandoyesus/movie-explorer.git
+# Clone the repository
+git clone https://github.com/kua-University/movie-explorer.git
+cd movie-explorer
+
+# Start all services (Frontend, Backend, and PostgreSQL)
+docker-compose up --build
+```
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:5000/api
+- **PostgreSQL**: localhost:5432
+
+### Option 2: Local Development (Without Docker)
+
+#### 1. Clone & Install
+```bash
+git clone https://github.com/kua-University/movie-explorer.git
 cd movie-explorer
 ```
 
-### 2. Backend Setup
+#### 2. Backend Setup
 ```bash
 cd backend
 npm install
 ```
 Create a `.env` file in the `backend/` directory using the variables listed above.
 
-### 3. Frontend Setup
+#### 3. Frontend Setup
 ```bash
 cd ../frontend
 npm install
 ```
 Create a `.env` file in the `frontend/` directory using the variables listed above.
 
-### 4. Launch Full-Stack Application
+#### 4. Launch Full-Stack Application
 To run both servers easily, from the **root** folder:
 ```bash
 # If running concurrently
@@ -142,6 +159,16 @@ npm run dev
 # Terminal 1: cd backend && npm run dev
 # Terminal 2: cd frontend && npm run dev
 ```
+
+---
+
+## 🐳 Docker Architecture
+
+The project provides robust Docker configurations for both development and production:
+
+- **docker-compose.yml**: Runs 3 separate services connected via an internal network (Frontend Dev Server, Backend Express Server, and PostgreSQL Database). It mounts local volumes for instant hot-reloading.
+- **frontend/Dockerfile**: A Multi-Stage production build that first builds the React/Vite static assets, and then serves them securely using **Nginx**.
+- **backend/Dockerfile**: A lightweight Node.js 20 Alpine container optimized for Express API execution.
 
 ---
 

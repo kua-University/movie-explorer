@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: axora-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - JWT_SECRET=local_development_super_secret_key
+      - DATABASE_URL=postgres://axora_user:password@postgres:5432/axora_db
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run dev
+    depends_on:
+      - postgres
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: axora-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: axora-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=axora_user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=axora_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Automatically initialize the database with our schema!
+      - ./backend/models/schema.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  pgdata:
