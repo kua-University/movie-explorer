@@ -20,9 +20,9 @@
 ┌────────────────────────────▼────────────────────────────────────┐
 │                   BACKEND (Node.js + Express)                   │
 │                                                                 │
-│  ┌──────────┐   ┌──────────────┐   ┌─────────┐   ┌───────────┐  │
-│  │  Routes  │──▶│ Controllers  │──▶│ Models  │──▶│ PostgreSQL│  │
-│  └──────────┘   └──────────────┘   └─────────┘   └───────────┘  │
+│  ┌──────────┐   ┌──────────────┐   ┌──────────────┐   ┌─────────┐│
+│  │  Routes  │──▶│ Controllers  │──▶│   Services   │──▶│ Database││
+│  └──────────┘   └──────────────┘   └──────────────┘   └─────────┘│
 │                                                                 │
 │  Middleware: Helmet │ CORS │ JWT Auth │ Rate Limiter            │
 └─────────────────────────────────────────────────────────────────┘
@@ -33,8 +33,9 @@
 | Pattern | Location | Purpose |
 |---------|----------|---------|
 | **MVC Architecture** | `backend/` | Separates routing, controller logic, and data models. |
-| **Provider Pattern** | `frontend/src/context/` | Manages global authentication and watchlist states. |
-| **Middleware Pipeline** | `backend/middleware/` | Cross-cutting concerns (authentication guards, error handling, security headers). |
+| **Service Layer** | `backend/services/` | Decouples business logic from HTTP transport and controller handlers. |
+| **Provider Pattern** | `frontend/src/context/` | Manages global authentication and watchlist states using React Context. |
+| **Middleware Pipeline** | `backend/middleware/` | Handles cross-cutting concerns (authentication guards, security headers, etc.). |
 | **Component-Based UI** | `frontend/src/components/` | Encapsulates reusable UI elements like buttons and modals. |
 
 ---
@@ -194,6 +195,7 @@ movie-explorer/
 ├── backend/
 │   ├── config/              # Database Connections (db.js)
 │   ├── controllers/         # API Logic (authController.js, watchlistController.js)
+│   ├── services/            # Business Logic Layer (authService.js, watchlistService.js)
 │   ├── middleware/          # Auth Guards & Security (authMiddleware.js)
 │   ├── models/              # Database Schema (schema.sql)
 │   ├── routes/              # Express API Routes (authRoutes.js, watchlistRoutes.js)
