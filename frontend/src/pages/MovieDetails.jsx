@@ -4,7 +4,6 @@ import TrailerModal from "../components/TrailerModal";
 import MovieRow from "../components/MovieRow";
 import useWatchlist from "../hooks/useWatchlist";
 import { useAuth } from "../context/AuthContext";
-import toast from "react-hot-toast";
 import useAuthPrompt from "../hooks/useAuthPrompt";
 
 const apiKey = import.meta.env.VITE_TMDB_API_KEY;

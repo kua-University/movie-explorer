@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useWatchlist from "../hooks/useWatchlist";
 import { useAuth } from "../context/AuthContext";
-import toast from "react-hot-toast";
 import useAuthPrompt from "../hooks/useAuthPrompt";
 
 export default function Navbar() {

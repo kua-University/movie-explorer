@@ -9,12 +9,10 @@ export function WatchlistProvider({ children }) {
     const [watchlist, setWatchlist] = useState([]);
     const { user } = useAuth();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (user) {
             fetchWatchlist();
         } else {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
             setWatchlist([]);
         }
     }, [user]);
