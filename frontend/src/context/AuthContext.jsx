@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const AuthContext = createContext();
 
@@ -38,6 +39,7 @@ export function AuthProvider({ children }) {
         setUser(null);
         localStorage.removeItem("axora_user");
         delete axios.defaults.headers.common["Authorization"];
+        toast.success("Successfully logged out");
     };
 
     return (

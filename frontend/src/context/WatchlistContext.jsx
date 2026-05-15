@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
+import toast from "react-hot-toast";
 
 const WatchlistContext = createContext();
 
@@ -42,8 +43,10 @@ export function WatchlistProvider({ children }) {
             });
             const mappedEntry = {...data, id: data.movie_id, db_id: data.id};
             setWatchlist(prev => [...prev, mappedEntry]);
+            toast.success("Added to watchlist");
         } catch (err) {
             console.error("Error adding to watchlist", err);
+            toast.error("Failed to add to watchlist");
         }
     };
 
@@ -51,8 +54,10 @@ export function WatchlistProvider({ children }) {
         try {
             await axios.delete(`/api/watchlist/${movieId}`);
             setWatchlist(prev => prev.filter((m) => m.id !== movieId));
+            toast.success("Removed from watchlist");
         } catch (err) {
             console.error("Error removing from watchlist", err);
+            toast.error("Failed to remove from watchlist");
         }
     };
 

@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useWatchlist from "../hooks/useWatchlist";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
+import useAuthPrompt from "../hooks/useAuthPrompt";
 
 export default function Navbar() {
   const [query, setQuery] = useState("");
@@ -13,6 +15,7 @@ export default function Navbar() {
   const location = useLocation();
   const { watchlist } = useWatchlist();
   const { user, logout } = useAuth();
+  const requireAuth = useAuthPrompt();
 
   const searchRef = useRef();
   const profileRef = useRef();
@@ -79,6 +82,12 @@ export default function Navbar() {
               <Link 
                 key={link.name} 
                 to={link.path} 
+                onClick={(e) => {
+                    if (link.name === "Watchlist" && !user) {
+                        e.preventDefault();
+                        requireAuth();
+                    }
+                }}
                 className={`transition-all relative group flex items-center gap-2 ${location.pathname === link.path ? 'text-primary' : 'text-gray-400 hover:text-white'}`}
               >
                 {link.name}
@@ -159,7 +168,20 @@ export default function Navbar() {
 
             <div className="flex flex-col gap-4">
                 {mainLinks.map((link) => (
-                    <Link key={link.name} to={link.path} onClick={() => setIsMenuOpen(false)} className={`text-[13px] font-black uppercase tracking-[0.3em] py-3 px-4 rounded-2xl flex items-center justify-between transition-all ${location.pathname === link.path ? 'bg-primary/10 text-primary' : 'text-gray-500 active:bg-white/5 active:text-white'}`}>
+                    <Link 
+                      key={link.name} 
+                      to={link.path} 
+                      onClick={(e) => {
+                          if (link.name === "Watchlist" && !user) {
+                              e.preventDefault();
+                              setIsMenuOpen(false);
+                              requireAuth();
+                          } else {
+                              setIsMenuOpen(false);
+                          }
+                      }} 
+                      className={`text-[13px] font-black uppercase tracking-[0.3em] py-3 px-4 rounded-2xl flex items-center justify-between transition-all ${location.pathname === link.path ? 'bg-primary/10 text-primary' : 'text-gray-500 active:bg-white/5 active:text-white'}`}
+                    >
                         {link.name}
                         {link.showBadge && watchlist.length > 0 && <span className="bg-primary text-black px-2 py-0.5 rounded-full text-[10px] leading-none">{watchlist.length}</span>}
                     </Link>

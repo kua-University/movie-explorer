@@ -1,9 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
+import useAuthPrompt from "../hooks/useAuthPrompt";
 
 export default function MovieCard({ movie, watchlistHandlers }) {
     const { user } = useAuth();
-    const navigate = useNavigate();
+    const requireAuth = useAuthPrompt();
 
     if (!movie) return null;
     
@@ -14,7 +16,7 @@ export default function MovieCard({ movie, watchlistHandlers }) {
     const handleWatchlistClick = (e) => {
         e.preventDefault();
         if (!user) {
-            navigate('/login');
+            requireAuth();
             return;
         }
         inWatchlist ? watchlistHandlers.removeFromWatchlist(movie.id) : watchlistHandlers.addToWatchlist(movie);

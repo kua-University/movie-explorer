@@ -1,26 +1,33 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 export default function Login() {
     const [isLogin, setIsLogin] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({ email: "", password: "", username: "" });
     const navigate = useNavigate();
     const { login, register } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         
         try {
             if (isLogin) {
                 await login(formData.email, formData.password);
+                toast.success("Welcome back!");
             } else {
                 await register(formData.username, formData.email, formData.password);
+                toast.success("Account created successfully!");
             }
             navigate("/");
         } catch (err) {
             console.error(err);
-            alert(err.response?.data?.message || "Authentication failed");
+            toast.error(err.response?.data?.message || "Authentication failed");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -99,8 +106,10 @@ export default function Login() {
 
                         <button
                             type="submit"
-                            className="mt-6 bg-primary text-black font-black uppercase tracking-[0.3em] py-6 rounded-full text-xs shadow-[0_0_30px_rgba(0,229,255,0.3)] hover:scale-105 active:scale-95 transition-all"
+                            disabled={isLoading}
+                            className="mt-6 bg-primary text-black font-black uppercase tracking-[0.3em] py-6 rounded-full text-xs shadow-[0_0_30px_rgba(0,229,255,0.3)] hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-3"
                         >
+                            {isLoading && <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />}
                             {isLogin ? "Authenticate" : "Create Account"}
                         </button>
 

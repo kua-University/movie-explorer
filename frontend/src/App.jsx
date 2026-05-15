@@ -11,6 +11,7 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import { WatchlistProvider } from "./context/WatchlistContext";
 import { AuthProvider } from "./context/AuthContext";
+import { Toaster } from 'react-hot-toast';
 
 function Layout({ children }) {
   const location = useLocation();
@@ -36,6 +37,7 @@ function Layout({ children }) {
         </main>
         {!hideNavAndFooter && <Footer />}
       </div>
+      <Toaster position="top-center" toastOptions={{ style: { background: '#121822', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' } }} />
     </div>
   );
 }

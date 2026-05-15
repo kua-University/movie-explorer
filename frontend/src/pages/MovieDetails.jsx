@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import TrailerModal from "../components/TrailerModal";
 import MovieRow from "../components/MovieRow";
 import useWatchlist from "../hooks/useWatchlist";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
+import useAuthPrompt from "../hooks/useAuthPrompt";
 
 const apiKey = import.meta.env.VITE_TMDB_API_KEY;
 
 export default function MovieDetails() {
     const { id } = useParams();
-    const navigate = useNavigate();
     const { user } = useAuth();
+    const requireAuth = useAuthPrompt();
     const [movie, setMovie] = useState(null);
     const [similar, setSimilar] = useState([]);
     const [trailer, setTrailer] = useState(null);
@@ -99,7 +101,7 @@ export default function MovieDetails() {
                                 <button 
                                     onClick={() => {
                                         if (!user) {
-                                            navigate('/login');
+                                            requireAuth();
                                             return;
                                         }
                                         saved ? removeFromWatchlist(movie.id) : addToWatchlist(movie);
