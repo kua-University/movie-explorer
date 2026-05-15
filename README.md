@@ -161,21 +161,46 @@ git clone https://github.com/kua-University/Axora_Movies-Emandoyesus_Tesfay.git
 cd Axora_Movies-Emandoyesus_Tesfay
 ```
 
-#### 2. Backend Setup
+#### 2. Database Setup (SQL Schema)
+This project uses PostgreSQL. You can find the schema in `backend/models/schema.sql`. Execute these queries in your PostgreSQL terminal or Neon SQL editor:
+
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE watchlists (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    movie_id INTEGER NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    poster_path VARCHAR(255),
+    release_date VARCHAR(50),
+    vote_average DECIMAL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, movie_id)
+);
+```
+
+#### 3. Backend Setup
 ```bash
 cd backend
 npm install
 ```
 Create a `.env` file in the `backend/` directory using the variables listed above.
 
-#### 3. Frontend Setup
+#### 4. Frontend Setup
 ```bash
 cd ../frontend
 npm install
 ```
 Create a `.env` file in the `frontend/` directory using the variables listed above.
 
-#### 4. Launch Full-Stack Application
+#### 5. Launch Full-Stack Application
 To run both servers easily, from the **root** folder:
 ```bash
 # If running concurrently
