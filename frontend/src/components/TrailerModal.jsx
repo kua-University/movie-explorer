@@ -9,7 +9,7 @@ export default function TrailerModal({ isOpen, videoKey, onClose }) {
       onClick={onClose}
     >
       <div
-        className="w-full max-w-6xl bg-[#121822] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_50px_150px_rgba(0,0,0,0.9)]"
+        className="w-full max-w-4xl bg-[#121822] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_50px_150px_rgba(0,0,0,0.9)]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Section (Above Video) */}

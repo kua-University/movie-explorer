@@ -1,33 +1,28 @@
-# 🎬 AXORA Movies - Premium Cinematic Platform
+# 🎬 AXORA Movies - Premium Full-Stack Platform
 
-**AXORA** is a high-end, agency-level Movie Discovery Platform built for movie enthusiasts who demand a premium, distraction-free experience. Featuring a stunning glassmorphic UI, real-time API integrations, and cinematic interaction patterns.
+**AXORA** is a high-end, full-stack Movie Discovery Platform built for movie enthusiasts who demand a premium, distraction-free experience. Featuring a stunning glassmorphic UI, real-time TMDB API integrations, and a robust Node.js/PostgreSQL backend for secure user management.
 
 ---
 
 ## 🔥 Key Features
 
-- **🎭 Cinematic User Experience**: Ultra-premium UI with backdrop blurs, neon accents, and smooth transitions.
+- **🎭 Cinematic User Experience**: Ultra-premium frontend UI with backdrop blurs, neon accents, and custom notification systems using `react-hot-toast`.
+- **🛡️ Secure Global Authentication**: JWT-based authentication system backed by a custom Node.js Express API. Passwords are securely hashed using bcrypt.
+- **💎 Persistent Intelligence**:
+  - **Live Watchlist**: Full database integration linking users to their personal saved movies across sessions.
+  - **Guest Browsing**: Intelligent authentication guards that elegantly prompt users without breaking their browsing experience.
 - **🔎 Dynamic Discovery Engine**: Advanced search with live suggestions, genre-based filtering, and a powerful sorting system (Popularity, Rating, Newest).
 - **📺 Immersive Trailer System**: Branded trailer modal with a clean, unobstructed viewing window and official broadcast styling.
-- **🛡️ Global Authentication Protocol**: Immersive, full-screen Login/Registration experience that hides navigation for zero distraction.
-- **💎 Intelligence Persistence**:
-  - **Live Watchlist**: Add and remove content instantly with a synchronized global state.
-  - **Auto-Scroll Engine**: Ensures every new movie page starts at the top of the viewport.
-- **🚀 Performance Optimized**:
-  - **Cinematic Skeletons**: Shimmering placeholders during data fetching.
-  - **Intelligent Loading**: Content rows initially limited to 7 items with "Show All" and "Infinite Load" expansion steps.
+- **🚀 Production Ready Architecture**: Fully equipped with CI/CD GitHub Actions, rate-limiting, and hardened HTTP headers.
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Core**: React.js 18 (Vite)
-- **Styling**: Tailwind CSS v4 (with custom Agency design system)
-- **Navigation**: React Router DOM v6
-- **Data Source**: TMDB API (The Movie Database)
-- **State Management**: React Context API
-- **Icons**: Custom SVG & Lucide-inspired patterns
-- **Aesthetics**: Glassmorphism, Neon Glows, Custom Sleek Scrollbars
+- **Frontend**: React.js 18 (Vite), Tailwind CSS v4, Axios, React Hot Toast
+- **Backend**: Node.js, Express.js, JSON Web Tokens (JWT), bcryptjs, Helmet, Express Rate Limit
+- **Database**: Serverless PostgreSQL (Neon)
+- **DevOps**: GitHub Actions (Linting & Build CI/CD), Vercel (Frontend), Render (Backend)
 
 ---
 
@@ -37,18 +32,40 @@
 ```bash
 git clone https://github.com/emandoyesus/movie-explorer.git
 cd movie-explorer
+```
+
+### 2. Backend Setup
+```bash
+cd backend
 npm install
 ```
-
-### 2. Environment Configuration
-Create a `.env` file in the root directory and add your TMDB API Key:
+Create a `.env` file in the `backend/` directory:
 ```env
-VITE_TMDB_API_KEY=your_api_key_here
+PORT=5000
+JWT_SECRET=your_super_secret_jwt_key
+DATABASE_URL=your_neon_postgres_connection_string
 ```
 
-### 3. Launch Development Server
+### 3. Frontend Setup
 ```bash
+cd ../frontend
+npm install
+```
+Create a `.env` file in the `frontend/` directory:
+```env
+VITE_TMDB_API_KEY=your_tmdb_api_key_here
+VITE_API_URL=http://localhost:5000
+```
+
+### 4. Launch Full-Stack Application
+To run both servers easily, from the **root** folder:
+```bash
+# If running concurrently
 npm run dev
+
+# Alternatively, run them in separate terminals:
+# Terminal 1: cd backend && npm run dev
+# Terminal 2: cd frontend && npm run dev
 ```
 
 ---
@@ -56,13 +73,21 @@ npm run dev
 ## 📐 Project Structure
 
 ```text
-src/
-├── components/     # UI Components (Navbar, MovieRow, Hero, etc.)
-├── context/        # Global State (Auth, Watchlist)
-├── hooks/          # Custom Logic (useWatchlist)
-├── pages/          # Page Views (Home, MovieDetails, Login, etc.)
-├── services/       # API Utilities
-└── index.css       # Global Agency Design Tokens & Animations
+movie-explorer/
+├── backend/
+│   ├── config/      # Database Connections
+│   ├── controllers/ # API Logic
+│   ├── middleware/  # Auth Guards & Security
+│   ├── models/      # Database Queries
+│   ├── routes/      # Express API Routes
+│   └── server.js    # Entry Point
+└── frontend/
+    ├── src/
+    │   ├── components/ # UI Components
+    │   ├── context/    # Global State
+    │   ├── hooks/      # Custom Utility Hooks
+    │   ├── pages/      # Page Views
+    │   └── index.css   # Global Tokens
 ```
 
 ---
