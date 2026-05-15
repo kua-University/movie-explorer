@@ -53,6 +53,31 @@ This project implements modern CI/CD practices and utilizes cloud-native deploym
 
 ---
 
+## 🐳 Docker Architecture
+
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│                    DOCKER COMPOSE NETWORK                       │
+│                                                                 │
+│  ┌──────────────┐       ┌──────────────┐       ┌──────────────┐ │
+│  │   Frontend   │       │    Backend   │       │  PostgreSQL  │ │
+│  │ (Vite:5173)  │◀─────▶│ (Node:5000)  │◀─────▶│   (:5432)    │ │
+│  └──────┬───────┘       └──────┬───────┘       └──────┬───────┘ │
+│         │                      │                      │         │
+│   (Port 5173)            (Port 5000)            (Port 5432)     │
+└─────────┼──────────────────────┼──────────────────────┼─────────┘
+          ▼                      ▼                      ▼
+   [ localhost:5173 ]     [ localhost:5000 ]     [ localhost:5432 ]
+```
+
+The project provides robust Docker configurations for both development and production:
+
+- **docker-compose.yml**: Runs 3 separate services connected via an internal network (Frontend Dev Server, Backend Express Server, and PostgreSQL Database). It mounts local volumes for instant hot-reloading.
+- **frontend/Dockerfile**: A Multi-Stage production build that first builds the React/Vite static assets, and then serves them securely using **Nginx**.
+- **backend/Dockerfile**: A lightweight Node.js 20 Alpine container optimized for Express API execution.
+
+---
+
 ## 🔥 Key Features
 
 - **🎭 Cinematic User Experience**: Ultra-premium frontend UI with backdrop blurs, neon accents, and custom notification systems using `react-hot-toast`.
@@ -159,16 +184,6 @@ npm run dev
 # Terminal 1: cd backend && npm run dev
 # Terminal 2: cd frontend && npm run dev
 ```
-
----
-
-## 🐳 Docker Architecture
-
-The project provides robust Docker configurations for both development and production:
-
-- **docker-compose.yml**: Runs 3 separate services connected via an internal network (Frontend Dev Server, Backend Express Server, and PostgreSQL Database). It mounts local volumes for instant hot-reloading.
-- **frontend/Dockerfile**: A Multi-Stage production build that first builds the React/Vite static assets, and then serves them securely using **Nginx**.
-- **backend/Dockerfile**: A lightweight Node.js 20 Alpine container optimized for Express API execution.
 
 ---
 
