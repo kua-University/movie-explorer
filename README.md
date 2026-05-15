@@ -142,8 +142,8 @@ Run the entire stack with a single command! This handles the Node.js backend, Re
 
 ```bash
 # Clone the repository
-git clone https://github.com/kua-University/movie-explorer.git
-cd movie-explorer
+git clone https://github.com/kua-University/Axora_Movies-Emandoyesus_Tesfay.git
+cd Axora_Movies-Emandoyesus_Tesfay
 
 # Start all services (Frontend, Backend, and PostgreSQL)
 docker-compose up --build
@@ -156,8 +156,8 @@ docker-compose up --build
 
 #### 1. Clone & Install
 ```bash
-git clone https://github.com/kua-University/movie-explorer.git
-cd movie-explorer
+git clone https://github.com/kua-University/Axora_Movies-Emandoyesus_Tesfay.git
+cd Axora_Movies-Emandoyesus_Tesfay
 ```
 
 #### 2. Backend Setup
