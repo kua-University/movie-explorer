@@ -10,23 +10,22 @@ export function WatchlistProvider({ children }) {
     const { user } = useAuth();
 
     useEffect(() => {
+        const fetchWatchlist = async () => {
+            try {
+                const { data } = await axios.get('/api/watchlist');
+                const mappedData = data.map(m => ({...m, id: m.movie_id, db_id: m.id}));
+                setWatchlist(mappedData);
+            } catch (err) {
+                console.error("Error fetching watchlist", err);
+            }
+        };
+
         if (user) {
             fetchWatchlist();
         } else {
             setWatchlist([]);
         }
     }, [user]);
-
-    const fetchWatchlist = async () => {
-        try {
-            const { data } = await axios.get('/api/watchlist');
-            // ensure the structure matches what components expect (movie_id -> id mapping if needed)
-            const mappedData = data.map(m => ({...m, id: m.movie_id, db_id: m.id}));
-            setWatchlist(mappedData);
-        } catch (err) {
-            console.error("Error fetching watchlist", err);
-        }
-    };
 
     const addToWatchlist = async (movie) => {
         if (watchlist.some(m => m.id === movie.id)) return;
