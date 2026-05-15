@@ -1,11 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function MovieCard({ movie, watchlistHandlers }) {
+    const { user } = useAuth();
+    const navigate = useNavigate();
+
     if (!movie) return null;
     
     const inWatchlist = watchlistHandlers ? watchlistHandlers.isInWatchlist(movie.id) : false;
     const releaseYear = movie.release_date?.substring(0, 4) || "N/A";
     const rating = movie.vote_average?.toFixed(1) || "NR";
+
+    const handleWatchlistClick = (e) => {
+        e.preventDefault();
+        if (!user) {
+            navigate('/login');
+            return;
+        }
+        inWatchlist ? watchlistHandlers.removeFromWatchlist(movie.id) : watchlistHandlers.addToWatchlist(movie);
+    };
 
     return (
         <div className="relative group/card flex flex-col">
@@ -22,7 +35,7 @@ export default function MovieCard({ movie, watchlistHandlers }) {
                     </button>
                     {watchlistHandlers && (
                         <button 
-                            onClick={(e) => { e.preventDefault(); inWatchlist ? watchlistHandlers.removeFromWatchlist(movie.id) : watchlistHandlers.addToWatchlist(movie); }}
+                            onClick={handleWatchlistClick}
                             className={`absolute top-4 right-4 p-2 rounded-full transition-all ${inWatchlist ? 'bg-primary text-black' : 'bg-black/50 text-white hover:bg-white hover:text-black'}`}
                         >
                             <svg className="w-4 h-4" fill={inWatchlist ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>

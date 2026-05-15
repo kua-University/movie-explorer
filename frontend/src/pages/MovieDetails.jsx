@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import TrailerModal from "../components/TrailerModal";
 import MovieRow from "../components/MovieRow";
 import useWatchlist from "../hooks/useWatchlist";
+import { useAuth } from "../context/AuthContext";
 
 const apiKey = import.meta.env.VITE_TMDB_API_KEY;
 
 export default function MovieDetails() {
     const { id } = useParams();
+    const navigate = useNavigate();
+    const { user } = useAuth();
     const [movie, setMovie] = useState(null);
     const [similar, setSimilar] = useState([]);
     const [trailer, setTrailer] = useState(null);
@@ -94,7 +97,13 @@ export default function MovieDetails() {
                                     Watch Trailer
                                 </button>
                                 <button 
-                                    onClick={() => saved ? removeFromWatchlist(movie.id) : addToWatchlist(movie)}
+                                    onClick={() => {
+                                        if (!user) {
+                                            navigate('/login');
+                                            return;
+                                        }
+                                        saved ? removeFromWatchlist(movie.id) : addToWatchlist(movie);
+                                    }}
                                     className={`w-full sm:w-auto px-10 py-5 rounded-full font-black uppercase tracking-[0.2em] text-[10px] sm:text-xs transition-all flex items-center justify-center gap-3 ${
                                         saved 
                                         ? "bg-primary text-black shadow-lg" 
